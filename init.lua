@@ -1,13 +1,7 @@
---local abr = minetest.get_mapgen_setting('active_block_range')
-
-local pi = math.pi
 local random = math.random
 local min = math.min
 local max = math.max
 local abs = math.abs
-local floor = math.floor
-
-local deg = math.deg
 local rad = math.rad
 
 local vct = vector
@@ -38,10 +32,7 @@ local function minmax(v, m)
 	return min(abs(v), m) * sign(v)
 end
 
-local boat_activation = function(self, std)
-	--	self.object:set_rotation({x=0,y=pi,z=0})
-	--	self.object:set_velocity({x=0,y=0,z=0.5})
-
+local boat_activation = function(self)
 	self.sheet_limit = 90
 	self.rudder_angle = 0
 	local pos = self.object:get_pos()
@@ -75,10 +66,10 @@ local destroy = function(self)
 	end
 	self.object:remove()
 	pos.y = pos.y + 2
-	for i = 1, 3 do
+	for _ = 1, 3 do
 		minetest.add_item({ x = pos.x + random() - 0.5, y = pos.y, z = pos.z + random() - 0.5 }, "default:wood")
 	end
-	for i = 1, 9 do
+	for _ = 1, 9 do
 		minetest.add_item({ x = pos.x + random() - 0.5, y = pos.y, z = pos.z + random() - 0.5 }, "farming:string")
 	end
 end
@@ -106,7 +97,7 @@ local sailstep = function(self)
 		local yaw = rotation.y
 		local newyaw = yaw
 		local roll = rotation.z
-		local newroll = roll
+		local newroll
 
 		local hdir = minetest.yaw_to_dir(yaw) -- hull direction unit vector
 		local nhdir = { x = hdir.z, y = 0, z = -hdir.x } -- lateral unit vector
@@ -255,7 +246,7 @@ local colors = {
 	yellow = "#FFFF80",
 }
 
-local paint_sail = function(self, puncher, ttime, toolcaps, dir, damage)
+local paint_sail = function(self, puncher, _, toolcaps)
 	if puncher:is_player() then
 		local itmstck = puncher:get_wielded_item()
 		if itmstck then

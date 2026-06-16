@@ -276,7 +276,7 @@ local on_attach_child = function(self, obj)
 	if not core.is_player(obj) then
 		return
 	end
-	obj:set_eye_offset({ x = 0, y = 0, z = -20 }, { x = 0, y = 0, z = -5 })
+	obj:set_eye_offset({ x = 0, y = 5, z = -20 }, { x = 0, y = 0, z = -5 })
 	player_api.player_attached[obj:get_player_name()] = true
 	core.after(0.2, function()
 		if obj:is_valid() then

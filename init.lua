@@ -272,6 +272,30 @@ local paint_sail = function(self, puncher, _, toolcaps)
 	end
 end
 
+local on_attach_child = function(self, obj)
+	if not core.is_player(obj) then
+		return
+	end
+	obj:set_eye_offset({ x = 0, y = 0, z = -20 }, { x = 0, y = 0, z = -5 })
+	player_api.player_attached[obj:get_player_name()] = true
+	core.after(0.2, function()
+		if obj:is_valid() then
+			player_api.set_animation(obj, "sit", 30)
+		end
+	end)
+	self.driver = obj:get_player_name()
+end
+
+local on_detach_child = function(self, obj)
+	if not core.is_player(obj) then
+		return
+	end
+	player_api.player_attached[obj:get_player_name()] = false
+	obj:set_eye_offset({ x = 0, y = 0, z = 0 }, { x = 0, y = 0, z = 0 })
+	player_api.set_animation(obj, "stand", 30)
+	self.driver = nil
+end
+
 core.register_entity("sailing_kit:boat", {
 	--[[ initial_properties = {
 	physical = true,
@@ -296,22 +320,19 @@ core.register_entity("sailing_kit:boat", {
 
 	on_rightclick = function(self, clicker)
 		if clicker:get_attach() == nil then
-			--		clicker:set_attach(self.object,'',{x=20,y=3,z=0},{x=0,y=0,z=0})
-			clicker:set_attach(self.object, "", { x = -3, y = 2, z = -21 }, { x = 0, y = 0, z = 0 })
-			clicker:set_eye_offset({ x = 0, y = 0, z = -20 }, { x = 0, y = 0, z = -5 })
-			player_api.player_attached[clicker:get_player_name()] = true
-			core.after(0.2, function()
-				player_api.set_animation(clicker, "sit", 30)
-			end)
-			self.driver = clicker:get_player_name()
+			if not self.driver then
+				-- clicker:set_attach(self.object,'',{x=20,y=3,z=0},{x=0,y=0,z=0})
+				clicker:set_attach(self.object, "", { x = -3, y = 2, z = -21 }, { x = 0, y = 0, z = 0 })
+				-- eye offset, player model etc will be handled by on_attach_child
+			end
+			-- TODO: allow passengers
 		else
 			clicker:set_detach()
-			player_api.player_attached[clicker:get_player_name()] = false
-			clicker:set_eye_offset({ x = 0, y = 0, z = 0 }, { x = 0, y = 0, z = 0 })
-			player_api.set_animation(clicker, "stand", 30)
-			self.driver = nil
+			-- eye offset, player model etc will be handled by on_detach_child
 		end
 	end,
+	on_attach_child = on_attach_child,
+	on_detach_child = on_detach_child,
 
 	on_step = mobkit.stepfunc,
 	logic = sailstep,

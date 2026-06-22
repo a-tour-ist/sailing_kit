@@ -418,7 +418,7 @@ end,
 
 })	--]]
 
-core.register_entity("sailing_kit:rudder", {
+core.register_entity ("sailing_kit:rudder", {
 	initial_properties = {
 		physical = false,
 		collide_with_objects = false,

@@ -1,0 +1,17 @@
+name: check
+on: [push, pull_request]
+jobs:
+  luacheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Luacheck
+        uses: lunarmodules/luacheck@master
+  stylua:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Stylua
+        uses: JohnnyMorganz/stylua-action@v5.0.0

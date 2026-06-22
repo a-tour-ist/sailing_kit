@@ -17,14 +17,12 @@ jobs:
         run: |
           cd luacheck
           sudo luarocks make
+          cd ..
+      - run: cd sailing_kit
       - name: run luacheck
-        run: |
-          cd sailing_kit
-          luacheck .
+        run: luacheck .
       - name: install stylua
         run: cargo install stylua
       - name: run stylua
-        run: |
-          cd sailing_kit
-          stylua .
+        run: stylua .
         

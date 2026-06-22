@@ -9,7 +9,7 @@ jobs:
       - name: install luarocks
         run: sudo apt-get install luarocks
       - name: install stylua
-        run: luarocks install stylua
+        run: sudo luarocks install stylua
       - name: run stylua
         run: stylua .
         

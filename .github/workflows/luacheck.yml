@@ -6,6 +6,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
+        with:
+          path: sailing_kit
       - name: install luarocks
         run: sudo apt-get install luarocks
       - name: download luacheck

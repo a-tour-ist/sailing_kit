@@ -8,6 +8,14 @@ jobs:
         uses: actions/checkout@main
       - name: install luarocks
         run: sudo apt-get install luarocks
+      - name: download luacheck
+        uses: lunarmodules/luacheck@master
+      - name: build luacheck
+        run: |
+          cd luacheck
+          sudo luarocks make
+      - name: run luacheck
+        run: luacheck .
       - name: install stylua
         run: cargo install stylua
       - name: run stylua

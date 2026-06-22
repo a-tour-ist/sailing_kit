@@ -418,7 +418,9 @@ end,
 
 })	--]]
 
-core.register_entity ("sailing_kit:rudder", {
+my_global_var = 13 + 4
+
+core.register_entity("sailing_kit:rudder", {
 	initial_properties = {
 		physical = false,
 		collide_with_objects = false,

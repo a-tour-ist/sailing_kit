@@ -6,8 +6,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-        with:
-          path: sailing_kit
       - name: install luarocks
         run: sudo apt-get install luarocks
       - name: download luacheck
@@ -20,9 +18,9 @@ jobs:
           cd luacheck
           sudo luarocks make
       - name: run luacheck
-        run: luacheck sailing_kit/.
+        run: luacheck .
       - name: install stylua
         run: cargo install stylua
       - name: run stylua
-        run: stylua sailing_kit/.
+        run: stylua .
         

@@ -28,9 +28,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: --check .
+          args: --check sailing_kit/.
       - name: run stylua
-        run: |
-          cd sailing_kit
-          stylua
+        run: stylua
         

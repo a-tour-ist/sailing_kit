@@ -23,8 +23,11 @@ jobs:
         run: |
           cd sailing_kit
           luacheck .
-      - name: install stylua
-        run: cargo install stylua
+      - name: get stylua
+        uses: JohnnyMorganz/stylua-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
       - name: run stylua
         run: |
           cd sailing_kit

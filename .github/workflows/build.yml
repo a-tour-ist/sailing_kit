@@ -2,6 +2,9 @@ name: build
 on: [push, pull_request]
 jobs:
   luacheck:
+    # The latest luacheck release does not know the luanti std (06/2026)
+    # https://github.com/lunarmodules/luacheck/issues/121
+    # we need to build from git to use is
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

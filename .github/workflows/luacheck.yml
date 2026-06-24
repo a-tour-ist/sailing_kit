@@ -1,7 +1,7 @@
 name: check
 on: [push, pull_request]
 jobs:
-  build:
+  luacheck:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,10 +23,15 @@ jobs:
         run: |
           cd sailing_kit
           luacheck .
+  stylua:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
       - name: run stylua
         uses: JohnnyMorganz/stylua-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: --check sailing_kit/.
+          args: --check .
         
